@@ -47,7 +47,7 @@ Zmiana jest skończona, gdy: `rtk tsc --noEmit` przechodzi, `rtk lint` jest czys
 
 | Zamiast | Użyj |
 |---|---|
-| `pnpm build` | `rtk next build` |
+| `pnpm build` | `rtk proxy "npx next build"` — **nie `rtk next build`**, patrz niżej |
 | `pnpm test` | `rtk vitest run` |
 | `pnpm lint` | `rtk lint` |
 | przeszukiwania plików | `rtk grep <wzorzec>` |
@@ -57,3 +57,5 @@ Nieprzepisywane i bez filtra rtk (uruchamiaj normalnie): `pnpm dev`, `pnpm add`,
 Meta-komendy zawsze bezpośrednio: `rtk gain` (statystyki oszczędności), `rtk gain --history`, `rtk discover` (przegapione okazje), `rtk proxy <cmd>` (wykonanie bez filtrowania, do debugowania gdy podejrzewasz że filtr zjadł istotny output).
 
 Jeśli output rtk wygląda na obcięty w miejscu, które ma znaczenie dla diagnozy — powtórz przez `rtk proxy`, nie zgaduj.
+
+**Znany błąd: `rtk next build` nie buduje.** Na rtk 0.43.0 + Next.js 16.3.0 wypisuje `Errors: 0 | Warnings: 0`, ale zostawia w `.next/` wyłącznie katalog `dev/` (sam typegen) — bez `BUILD_ID`, `server/` i `static/`, przez co `next start` przewraca się na „Could not find a production build". Zielony output jest fałszywie uspokajający, więc do weryfikacji builda używaj `rtk proxy "npx next build"`; jego output to krótka tabelka tras, więc oszczędność tokenów zostaje. `rtk lint` i `rtk tsc --noEmit` działają poprawnie — usterka dotyczy tylko builda. Gdy nowsza wersja rtk to naprawi, usuń ten akapit.
