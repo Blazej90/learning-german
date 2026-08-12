@@ -104,7 +104,16 @@ users/{uid}/planProgress/{dayId}       # dayId = "w1-d3"
   completedAt, note
 ```
 
-Reguły bezpieczeństwa: `allow read, write: if request.auth.uid == uid` — dostęp wyłącznie do własnego poddrzewa.
+Reguły bezpieczeństwa: `allow read, write: if request.auth.uid == uid` — dostęp wyłącznie do własnego poddrzewa. Plik: `firestore.rules`, wdrożenie przez `firebase deploy --only firestore:rules`.
+
+Rozstrzygnięcia z implementacji (Faza 4):
+
+- **Logowanie jest wymagane** — każda strona poza `/login` przekierowuje niezalogowanego. Jedno źródło prawdy (Firestore) zamiast godzenia stanu lokalnego z chmurowym.
+- **`phraseId` jest identyfikatorem dokumentu**, więc nie powtarza się w jego polach. Zapis oceny to `setDoc` po znanym id, bez zapytania.
+- **Znaczniki czasu z urządzenia**, nie `serverTimestamp()` — offline serwerowy znacznik zostaje `null` do synchronizacji, co przekłamałoby datę każdej powtórki zrobionej bez zasięgu.
+- **Zapisy nie są awaitowane w UI.** Z persystencją offline zapis jest trwały w IndexedDB natychmiast, ale jego `Promise` rozwiązuje się dopiero po potwierdzeniu z serwera. Odrzucenie oznacza więc realną odmowę (reguły, wygasła sesja) — i tylko wtedy pokazujemy komunikat.
+- **Migracja z localStorage jest jednokierunkowa i konfliktów nie rozstrzyga po stronie urządzenia** — wysyłane są wyłącznie zwroty, których nie ma jeszcze w Firestore. Lokalna kopia zostaje jako backup; powtórce migracji zapobiega flaga z `uid`.
+- **Brak konfiguracji to normalny stan, nie awaria** — bez `.env.local` aplikacja startuje i na `/login` wypisuje brakujące zmienne środowiskowe.
 
 ## 4. Algorytm powtórek (SM-2)
 

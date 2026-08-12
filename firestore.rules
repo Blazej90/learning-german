@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Cała baza to prywatne poddrzewa użytkowników. Nie ma tu treści wspólnej —
+// zwroty i plan nauki leżą w repo jako TypeScript, więc żaden dokument nie
+// powinien być czytelny dla kogokolwiek poza właścicielem.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      // cards/{phraseId}, reviews/{autoId}, planProgress/{dayId} — ta sama
+      // reguła, bo wszystkie są stanem tego jednego użytkownika.
+      match /{document=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Wszystko poza users/{uid} jest domyślnie zamknięte — brak reguły
+    // oznacza brak dostępu, więc nie trzeba tego zapisywać osobno.
+  }
+}

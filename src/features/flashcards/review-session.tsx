@@ -62,6 +62,17 @@ export function ReviewSession() {
     );
   }
 
+  if (status === "error") {
+    return (
+      <div className="flex flex-col items-start gap-4">
+        <p role="alert" className="text-destructive">
+          {session.error}
+        </p>
+        <Button onClick={session.restart}>Spróbuj ponownie</Button>
+      </div>
+    );
+  }
+
   if (!current || !phrase) {
     return (
       <SessionSummaryView
@@ -88,6 +99,14 @@ export function ReviewSession() {
         </div>
         <Progress value={progress} aria-label="Postęp sesji" />
       </div>
+
+      {/* Zapis offline trafia do pamięci podręcznej i wyjdzie później, więc ten
+          komunikat pojawia się tylko przy realnej odmowie zapisu. */}
+      {session.error ? (
+        <p role="alert" className="text-sm text-destructive">
+          {session.error}
+        </p>
+      ) : null}
 
       <FlipCard
         isFlipped={isRevealed}

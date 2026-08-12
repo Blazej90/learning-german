@@ -32,8 +32,9 @@ export default function HomePage() {
       </div>
 
       <p className="mt-12 text-sm text-muted-foreground">
-        Postępy zapisują się na razie w tej przeglądarce. Synchronizacja między
-        urządzeniami i tracker planu powstają w kolejnych fazach.
+        Postępy zapisują się na Twoim koncie, więc telefon i komputer widzą tę
+        samą talię — także bez zasięgu, bo powtórki dogrywają się przy kolejnym
+        połączeniu. Tracker planu powstaje w następnej fazie.
       </p>
     </main>
   );

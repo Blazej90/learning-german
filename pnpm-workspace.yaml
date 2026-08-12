@@ -1,3 +1,7 @@
 allowBuilds:
+  # Firebase i jego zależności ciągną skrypty postinstall, których nie
+  # potrzebujemy — SDK działa bez nich, a build zostaje deterministyczny.
+  '@firebase/util': false
+  protobufjs: false
   sharp: false
   unrs-resolver: false
