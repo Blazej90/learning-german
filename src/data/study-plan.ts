@@ -1,4 +1,11 @@
-import type { StudyDay, StudyWeek } from "@/types/content";
+import type { StudyDay, StudyTaskId, StudyWeek } from "@/types/content";
+
+/** Short Polish labels for the daily checklist columns. */
+export const STUDY_TASK_LABELS: Record<StudyTaskId, string> = {
+  grammar: "Gramatyka",
+  phrases: "Zwroty",
+  listening: "Słuchanie",
+};
 
 /** Source: `star learn german.md`, section 2 — "Plan nauki: 4 tygodnie na start". */
 export const STUDY_WEEKS: readonly StudyWeek[] = [
@@ -69,4 +76,8 @@ export const STUDY_DAYS: readonly StudyDay[] = STUDY_WEEKS.flatMap((week) =>
 
 export function getStudyWeek(week: number): StudyWeek | undefined {
   return STUDY_WEEKS.find((studyWeek) => studyWeek.week === week);
+}
+
+export function getStudyDays(week: number): readonly StudyDay[] {
+  return STUDY_DAYS.filter((day) => day.week === week);
 }

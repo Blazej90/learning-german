@@ -22,6 +22,14 @@ export default function HomePage() {
           Zacznij powtórki
         </Button>
         <Button
+          render={<Link href="/plan" />}
+          variant="outline"
+          size="lg"
+          className="h-11"
+        >
+          Plan nauki
+        </Button>
+        <Button
           render={<Link href="/phrases" />}
           variant="outline"
           size="lg"
@@ -34,7 +42,8 @@ export default function HomePage() {
       <p className="mt-12 text-sm text-muted-foreground">
         Postępy zapisują się na Twoim koncie, więc telefon i komputer widzą tę
         samą talię — także bez zasięgu, bo powtórki dogrywają się przy kolejnym
-        połączeniu. Tracker planu powstaje w następnej fazie.
+        połączeniu. Strona główna z podsumowaniem dnia powstaje w następnej
+        fazie.
       </p>
     </main>
   );

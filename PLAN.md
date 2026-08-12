@@ -115,6 +115,15 @@ Rozstrzygnięcia z implementacji (Faza 4):
 - **Migracja z localStorage jest jednokierunkowa i konfliktów nie rozstrzyga po stronie urządzenia** — wysyłane są wyłącznie zwroty, których nie ma jeszcze w Firestore. Lokalna kopia zostaje jako backup; powtórce migracji zapobiega flaga z `uid`.
 - **Brak konfiguracji to normalny stan, nie awaria** — bez `.env.local` aplikacja startuje i na `/login` wypisuje brakujące zmienne środowiskowe.
 
+Rozstrzygnięcia z implementacji (Faza 5):
+
+- **`streak` nie jest polem w bazie, tylko funkcją z `planProgress`.** Licznik trzymany w dokumencie użytkownika trzeba aktualizować przy każdym odhaczeniu i po każdej przerwie — a gdy raz się rozjedzie (dwa urządzenia, zapis offline), nic go nie naprawi. Wyliczanie z odhaczonych dni jest czystą funkcją i zawsze zgadza się z tym, co widać na ekranie.
+- **Serię podtrzymuje jedno zadanie, nie cały dzień**, a dzisiejszy dzień jej nie przerywa, dopóki się nie skończy. Wczorajszy pusty dzień przerywa ją bez wyjątków.
+- **Dni z przyszłości są zablokowane** — plan, w którym można odhaczyć jutro, przestaje cokolwiek mówić o tym, co faktycznie zrobiłeś.
+- **`planStartDate` zapisuje się na wyraźne kliknięcie**, nie przy pierwszym wejściu na `/plan`. Inaczej dzień pierwszy wypadałby wtedy, gdy przypadkiem zajrzałeś na stronę.
+- **Zapis dnia jest scalający (`merge`)**, żeby przełączenie checkboxa nie kasowało pola `note` z modelu danych.
+- **`completedAt` to znacznik z urządzenia**, ustawiany przy odhaczeniu trzeciego zadania i czyszczony do `null`, gdy któreś wróci do odznaczonego — z tego samego powodu co w logu powtórek.
+
 ## 4. Algorytm powtórek (SM-2)
 
 Cztery oceny mapowane na jakość SM-2: **Nie znam** (0) · **Trudne** (3) · **Dobrze** (4) · **Łatwe** (5).

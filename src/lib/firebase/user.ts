@@ -1,9 +1,8 @@
 /**
  * The `users/{uid}` profile document.
  *
- * Phase 4 only needs enough to identify the account and to know which timezone
- * "today" means; `planStartDate`, `streak` and `lastReviewDate` are written by
- * the phases that own them, which is why every write here merges.
+ * Identity, timezone and the plan start date. Every write merges, so the phases
+ * own their own fields and never clobber each other's.
  */
 
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
@@ -44,6 +43,28 @@ export async function ensureUserDocument(user: User): Promise<void> {
       timezone: localTimezone(),
       ...(isNew ? { createdAt: Timestamp.now() } : {}),
     },
+    { merge: true },
+  );
+}
+
+/**
+ * Day 1 of the four-week plan, or `null` if it has not been started yet.
+ *
+ * Absent is a normal state, not an error: the tracker shows a "start the plan"
+ * screen until this date exists.
+ */
+export async function fetchPlanStartDate(uid: string): Promise<Date | null> {
+  const snapshot = await getDoc(doc(getDb(), "users", uid));
+  const value = snapshot.data()?.planStartDate;
+
+  return value instanceof Timestamp ? value.toDate() : null;
+}
+
+/** Start the plan on `startDate` — the beginning of the user's local day. */
+export function setPlanStartDate(uid: string, startDate: Date): Promise<void> {
+  return setDoc(
+    doc(getDb(), "users", uid),
+    { planStartDate: Timestamp.fromDate(startDate) },
     { merge: true },
   );
 }
