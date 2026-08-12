@@ -94,6 +94,7 @@ users/{uid}/cards/{phraseId}          # stan SRS jednej fiszki
   easeFactor: number                   # start 2.5, minimum 1.3
   dueDate: Timestamp
   lapses: number
+  introducedAt: Timestamp              # początek dnia pierwszego pokazania
 
 users/{uid}/reviews/{autoId}           # log powtórek → wykresy postępu
   phraseId, rating, reviewedAt, previousInterval
@@ -114,6 +115,12 @@ Cztery oceny mapowane na jakość SM-2: **Nie znam** (0) · **Trudne** (3) · **
 - `q ≥ 3` → 1. powtórka: 1 dzień · 2. powtórka: 6 dni · kolejne: `round(interval × EF)`
 
 Czysta funkcja `schedule(card, rating, now) → card`, w pełni testowalna. Kolejka na dziś = fiszki z `dueDate ≤ dziś` + limit nowych dziennie (domyślnie 8, zgodnie z „5–10 nowych zwrotów" z Twojego planu).
+
+Trzy rozstrzygnięcia z implementacji (Faza 2), których nie było w pierwotnym szkicu:
+
+- **`introducedAt`** — bez zapisanej daty pierwszego pokazania limit nowych fiszek jest nieegzekwowalny: ponowne otwarcie aplikacji tego samego dnia wydaje kolejną porcję. Stąd dodatkowe pole w `cards`.
+- **Termin liczony od początku dnia**, nie od momentu powtórki — ocena o 23:45 i o 6:30 wyznacza ten sam dzień następnej powtórki.
+- **EF spada również przy porażce** (zgodnie z oryginalnym SM-2), więc uporczywie mylona fiszka dostaje trwale krótsze interwały, a nie tylko wraca jutro.
 
 ## 5. Fazy realizacji
 
