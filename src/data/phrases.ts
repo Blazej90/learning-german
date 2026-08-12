@@ -338,3 +338,13 @@ if (duplicateIds.length > 0) {
 export function getPhrasesByCategory(category: CategoryId): Phrase[] {
   return PHRASES.filter((phrase) => phrase.category === category);
 }
+
+const PHRASES_BY_ID = new Map(PHRASES.map((phrase) => [phrase.id, phrase]));
+
+/** The deck in review order — the queue builder only needs the ids. */
+export const PHRASE_IDS: readonly string[] = PHRASES.map((phrase) => phrase.id);
+
+/** `undefined` for an id that left the deck, e.g. saved state from an old build. */
+export function getPhrase(id: string): Phrase | undefined {
+  return PHRASES_BY_ID.get(id);
+}

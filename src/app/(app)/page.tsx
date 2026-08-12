@@ -16,14 +16,24 @@ export default function HomePage() {
         {STUDY_DAYS.length} dni, podzielony na {STUDY_WEEKS.length} tygodnie.
       </p>
 
-      <div className="mt-8">
+      <div className="mt-8 flex flex-wrap gap-3">
         {/* Base UI (shadcn v4) skleja komponenty przez `render`, nie `asChild`. */}
-        <Button render={<Link href="/phrases" />}>Przeglądaj zwroty</Button>
+        <Button render={<Link href="/review" />} size="lg" className="h-11">
+          Zacznij powtórki
+        </Button>
+        <Button
+          render={<Link href="/phrases" />}
+          variant="outline"
+          size="lg"
+          className="h-11"
+        >
+          Przeglądaj zwroty
+        </Button>
       </div>
 
       <p className="mt-12 text-sm text-muted-foreground">
-        Sesja powtórek, tracker planu i synchronizacja postępów powstają w
-        kolejnych fazach.
+        Postępy zapisują się na razie w tej przeglądarce. Synchronizacja między
+        urządzeniami i tracker planu powstają w kolejnych fazach.
       </p>
     </main>
   );
