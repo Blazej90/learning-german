@@ -15,8 +15,10 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   setDoc,
   Timestamp,
+  where,
   writeBatch,
   type DocumentData,
 } from "firebase/firestore";
@@ -29,6 +31,10 @@ const MAX_BATCH_SIZE = 500;
 
 function cardsCollection(uid: string) {
   return collection(getDb(), "users", uid, "cards");
+}
+
+function reviewsCollection(uid: string) {
+  return collection(getDb(), "users", uid, "reviews");
 }
 
 function isFiniteNumber(value: unknown): value is number {
@@ -138,12 +144,39 @@ export type ReviewLogEntry = {
  * done without signal.
  */
 export function logReview(uid: string, entry: ReviewLogEntry): Promise<void> {
-  const reviews = collection(getDb(), "users", uid, "reviews");
-
-  return setDoc(doc(reviews), {
+  return setDoc(doc(reviewsCollection(uid)), {
     phraseId: entry.phraseId,
     rating: entry.rating,
     reviewedAt: Timestamp.fromDate(entry.reviewedAt),
     previousInterval: entry.previousInterval,
   });
+}
+
+/**
+ * When each review since `since` happened — the dashboard chart needs nothing
+ * else, so only the timestamps come back.
+ *
+ * A range filter on one field needs no composite index; Firestore indexes
+ * `reviewedAt` on its own. Entries without a usable timestamp are skipped
+ * rather than dated to now, which would invent a review that never happened.
+ */
+export async function fetchReviewDates(
+  uid: string,
+  since: Date,
+): Promise<Date[]> {
+  const snapshot = await getDocs(
+    query(
+      reviewsCollection(uid),
+      where("reviewedAt", ">=", Timestamp.fromDate(since)),
+    ),
+  );
+
+  const dates: Date[] = [];
+
+  for (const document of snapshot.docs) {
+    const reviewedAt = toDate(document.data().reviewedAt);
+    if (reviewedAt) dates.push(reviewedAt);
+  }
+
+  return dates;
 }

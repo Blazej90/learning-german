@@ -124,6 +124,14 @@ Rozstrzygnięcia z implementacji (Faza 5):
 - **Zapis dnia jest scalający (`merge`)**, żeby przełączenie checkboxa nie kasowało pola `note` z modelu danych.
 - **`completedAt` to znacznik z urządzenia**, ustawiany przy odhaczeniu trzeciego zadania i czyszczony do `null`, gdy któreś wróci do odznaczonego — z tego samego powodu co w logu powtórek.
 
+Rozstrzygnięcia z implementacji (Faza 6):
+
+- **Dashboard nie ma własnego stanu planu** — korzysta z tego samego `usePlanTracker`, co `/plan`. Zadanie odhaczone na stronie głównej to ten sam dokument, więc nie ma czego synchronizować.
+- **Wykres to wbudowany SVG, nie biblioteka.** Trzydzieści liczb nie uzasadnia zależności (recharts to ~100 kB), a `viewBox` skaluje całość na telefonie za darmo. Wartości są dostępne również w tabeli pod wykresem — tooltip niczego nie zamyka.
+- **Historia powtórek to zapytanie zakresowe po jednym polu** (`reviewedAt >= …`), więc Firestore nie potrzebuje indeksu złożonego i `firestore.indexes.json` zostaje pusty.
+- **Puste dni zostają w wykresie.** Pominięcie ich ścisnęłoby oś i przerwana seria wyglądałaby na ciągłą.
+- **Adresy materiałów:** w `star learn german.md` są tylko dwa (Nicos Weg, Goethe-Institut). Pozostałe to oficjalne strony serwisów wymienionych w pliku z nazwy — warto je zweryfikować przy okazji.
+
 ## 4. Algorytm powtórek (SM-2)
 
 Cztery oceny mapowane na jakość SM-2: **Nie znam** (0) · **Trudne** (3) · **Dobrze** (4) · **Łatwe** (5).

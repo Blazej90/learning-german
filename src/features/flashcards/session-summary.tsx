@@ -34,7 +34,11 @@ export function SessionSummaryView({
             zwrotów wyczerpany. Wróć jutro — powtórki pojawią się same.
           </p>
           <div className="flex flex-wrap gap-2">
-            <Button render={<Link href="/phrases" />} variant="outline">
+            <Button
+              render={<Link href="/phrases" />}
+              nativeButton={false}
+              variant="outline"
+            >
               Przeglądaj zwroty
             </Button>
             <Button onClick={onRestart} variant="ghost">
@@ -77,7 +81,11 @@ export function SessionSummaryView({
 
         <div className="flex flex-wrap gap-2">
           <Button onClick={onRestart}>Sprawdź, czy coś jeszcze czeka</Button>
-          <Button render={<Link href="/" />} variant="outline">
+          <Button
+            render={<Link href="/" />}
+            nativeButton={false}
+            variant="outline"
+          >
             Wróć na start
           </Button>
         </div>
