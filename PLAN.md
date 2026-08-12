@@ -132,6 +132,15 @@ Rozstrzygnięcia z implementacji (Faza 6):
 - **Puste dni zostają w wykresie.** Pominięcie ich ścisnęłoby oś i przerwana seria wyglądałaby na ciągłą.
 - **Adresy materiałów:** w `star learn german.md` są tylko dwa (Nicos Weg, Goethe-Institut). Pozostałe to oficjalne strony serwisów wymienionych w pliku z nazwy — warto je zweryfikować przy okazji.
 
+Rozstrzygnięcia z implementacji (Faza 7):
+
+- **Service worker jest napisany ręcznie** (`public/sw.js`, ~130 linii), bez `next-pwa` ani `@serwist/next`. Dane i tak są offline dzięki persystencji Firestore, więc worker odpowiada wyłącznie za powłokę aplikacji — a wtyczka budująca własny worker to zależność, która lubi się rozjeżdżać z każdą nową wersją Next i Turbopacka.
+- **Strategie cache'owania:** nawigacje — sieć z awaryjnym cache'em (świeża treść, gdy jest zasięg); `/_next/static/*` — cache first (URL zmienia się razem z zawartością); reszta zasobów tego samego origin — stale-while-revalidate. Zapytania cross-origin (Firestore, Auth) worker przepuszcza bez dotykania.
+- **Payloady RSC (`?_rsc=`) nie są cache'owane.** Nieaktualny payload psuje nawigację po stronie klienta; pozwalając mu polec bez zasięgu, wymuszamy pełne przeładowanie strony — a na nie worker ma odpowiedź.
+- **Rejestracja tylko w produkcji.** Worker cache'ujący wyjście Turbopacka podawałby wczorajszy bundle i każda zmiana wyglądałaby na nieudaną.
+- **Jedna grafika na wszystkie ikony** — `public/icons/icon.svg`, z marginesami wewnątrz środkowych 80%, więc ten sam plik przechodzi przez maskę Androida. PNG-i są wygenerowane i zacommitowane; projekt nie ma zależności do rasteryzacji.
+- **Deploy zostaje po stronie Błażeja** (konto Vercela, zmienne środowiskowe, dopisanie domeny do Authorized domains w Firebase Auth). Kroki spisane w `README.md`.
+
 ## 4. Algorytm powtórek (SM-2)
 
 Cztery oceny mapowane na jakość SM-2: **Nie znam** (0) · **Trudne** (3) · **Dobrze** (4) · **Łatwe** (5).

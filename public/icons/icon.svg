@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Source of every PNG icon in this folder and in src/app.
+       Two flashcards, the front one turned over. Drawn as plain geometry so
+       it survives being scaled down to 32 px and cropped to a circle by
+       Android's maskable mask — everything stays inside the middle 80%. -->
+  <rect width="512" height="512" fill="#0a0a0a"/>
+  <g transform="rotate(-9 238 256)">
+    <rect x="148" y="131" width="180" height="250" rx="22" fill="#525252"/>
+  </g>
+  <g transform="rotate(6 274 256)">
+    <rect x="184" y="131" width="180" height="250" rx="22" fill="#fafafa"/>
+    <rect x="212" y="286" width="124" height="18" rx="9" fill="#a3a3a3"/>
+    <rect x="212" y="320" width="76" height="18" rx="9" fill="#d4d4d4"/>
+  </g>
+</svg>

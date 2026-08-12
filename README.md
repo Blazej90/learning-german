@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Niemiecki — fiszki i plan nauki
 
-## Getting Started
+PWA do nauki niemieckiego: talia fiszek z powtórkami SM-2 i tracker
+4-tygodniowego planu. Treść pochodzi z `star learn german.md`, postępy
+z Firestore.
 
-First, run the development server:
+Instrukcje pracy nad projektem: **`AGENT.md`**. Plan i model danych: **`PLAN.md`**.
+
+## Uruchomienie lokalne
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install          # tylko pnpm — npm i yarn odbiją się od `only-allow`
+cp .env.example .env.local
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Bez `.env.local` aplikacja startuje, ale `/login` wypisze brakujące zmienne
+zamiast formularza. Wartości znajdziesz w konsoli Firebase → Project settings →
+Your apps.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Komenda | Do czego |
+|---|---|
+| `pnpm dev` | serwer deweloperski |
+| `rtk vitest run` | testy logiki SRS i planu |
+| `rtk tsc --noEmit` | typy |
+| `rtk lint` | eslint |
+| `rtk proxy "npx next build"` | build produkcyjny |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy na Vercel
 
-## Learn More
+1. **Import repozytorium** — vercel.com → Add New → Project → wskaż to repo.
+   Preset Next.js, Node 22; reszta ustawień domyślna.
+2. **Zmienne środowiskowe** — w Settings → Environment Variables wklej wszystkie
+   sześć `NEXT_PUBLIC_FIREBASE_*` z `.env.local` (Production, Preview i
+   Development). Klucze są publiczne z natury — chronią nas reguły Firestore,
+   nie ukrywanie kluczy.
+3. **Domena w Firebase** — Authentication → Settings → Authorized domains →
+   dodaj `<projekt>.vercel.app`. Bez tego logowanie Google zwróci
+   `auth/unauthorized-domain`.
+4. **Reguły Firestore** — `firebase deploy --only firestore:rules` albo wklejenie
+   `firestore.rules` w konsoli. Reguły są tym samym plikiem dla wszystkich
+   środowisk.
 
-To learn more about Next.js, take a look at the following resources:
+## Instalacja na telefonie
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Otwórz adres z Vercela (musi być HTTPS — `localhost` nie wystarczy do instalacji
+z telefonu) i wybierz:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Android / Chrome:** menu → „Zainstaluj aplikację".
+- **iOS / Safari:** Udostępnij → „Dodaj do ekranu początkowego".
 
-## Deploy on Vercel
+Po instalacji aplikacja otwiera się bez paska przeglądarki. Odwiedzone ekrany
+działają bez zasięgu, a oceny fiszek trafiają do IndexedDB i dosyłają się przy
+kolejnym połączeniu.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Ikony
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`public/icons/icon.svg` jest źródłem wszystkich PNG-ów (`public/icons/icon-192`,
+`icon-512`, `src/app/icon.png`, `src/app/apple-icon.png`). Po zmianie SVG
+wygeneruj je ponownie — projekt nie ma zależności do rasteryzacji, więc
+najprościej `pnpm dlx sharp-cli` albo dowolny konwerter.
