@@ -9,8 +9,10 @@ import type { MetadataRoute } from "next";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Niemiecki — fiszki i plan nauki",
-    short_name: "Niemiecki",
+    name: "Kartoffel — niemiecki na fiszkach",
+    // What fits under the icon on a home screen. iOS truncates past ~12
+    // characters, so this one has to stand alone.
+    short_name: "Kartoffel",
     description:
       "Fiszki z powtórkami i tracker 4-tygodniowego planu nauki niemieckiego.",
     lang: "pl",

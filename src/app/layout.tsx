@@ -17,15 +17,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Niemiecki",
-    template: "%s · Niemiecki",
+    default: "Kartoffel",
+    template: "%s · Kartoffel",
   },
   description: "Fiszki z powtórkami i tracker 4-tygodniowego planu nauki niemieckiego.",
   // iOS ignores the manifest's display mode; this is what makes an installed
-  // app open without Safari's chrome.
+  // app open without Safari's chrome. The title here is what ends up under the
+  // icon on the home screen, so it stays short.
   appleWebApp: {
     capable: true,
-    title: "Niemiecki",
+    title: "Kartoffel",
     statusBarStyle: "default",
   },
   other: {

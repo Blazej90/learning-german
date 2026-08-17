@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Logo } from "@/components/brand/logo";
 import { SignInPanel } from "@/features/auth/sign-in-panel";
 
 export const metadata: Metadata = {
@@ -10,10 +11,16 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">Niemiecki</h1>
+      <h1>
+        <Logo
+          markClassName="size-11"
+          wordClassName="text-3xl"
+          className="gap-3"
+        />
+      </h1>
       <p className="mt-3 text-muted-foreground">
-        Fiszki z powtórkami i tracker planu. Zaloguj się, żeby postępy
-        synchronizowały się między telefonem a komputerem.
+        Fiszki z powtórkami i tracker planu nauki niemieckiego. Zaloguj się,
+        żeby postępy synchronizowały się między telefonem a komputerem.
       </p>
 
       <div className="mt-8">

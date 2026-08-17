@@ -4,17 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 
+import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/features/auth/user-menu";
 
 /**
  * The screen title, per route.
  *
- * "/" gets the app's name rather than "Start": on the dashboard the hero figure
- * already says what the screen is for, so the bar is free to act as a wordmark.
+ * "/" is absent on purpose: the dashboard shows the logo instead, because the
+ * hero figure below it already says what the screen is for. Everywhere else a
+ * logo would compete with the page you are actually on.
  */
 const TITLES: Record<string, string> = {
-  "/": "Niemiecki",
   "/review": "Powtórki",
   "/plan": "Plan nauki",
   "/phrases": "Zwroty",
@@ -29,13 +30,20 @@ const TITLES: Record<string, string> = {
  */
 export function AppHeader({ immersive }: { immersive: boolean }) {
   const pathname = usePathname();
-  const title = TITLES[pathname] ?? "Niemiecki";
+  const title = TITLES[pathname];
 
   return (
     <header className="pt-safe px-safe sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-lg">
       <div className="mx-auto flex h-12 w-full max-w-3xl items-center gap-2 px-4">
-        <h1 className="flex-1 truncate text-base font-semibold tracking-tight">
-          {title}
+        <h1 className="min-w-0 flex-1">
+          {title ? (
+            <span className="block truncate text-base font-semibold tracking-tight">
+              {title}
+            </span>
+          ) : (
+            // The wordmark is real text, so the heading still has a name.
+            <Logo />
+          )}
         </h1>
 
         {/* A session hides the tab bar, so it has to offer its own way out. */}

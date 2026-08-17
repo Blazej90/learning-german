@@ -1,19 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Source of every PNG icon in this folder and in src/app.
-       Two flashcards, the front one turned over. Drawn as plain geometry so
-       it survives being scaled down to 32 px and cropped to a circle by
-       Android's maskable mask — everything stays inside the middle 80%.
+  <!-- Kartoffel — source of every PNG icon in this folder and in src/app.
 
-       Colours are the app's own tokens: deep ink for the ground, the warm
-       off-white of the card face, and one amber line as the accent. Regenerate
-       the PNGs after editing this file. -->
+       The joke made visual: a potato that is also a flashcard. Card proportion
+       and two lines of "text" carry the card; the lumpy silhouette, the tan and
+       the sprouting eyes carry the potato.
+
+       Two rules learned the hard way, both about pareidolia:
+       the eyes must sit on a diagonal, never as a level pair, and the text
+       lines must be left-aligned and clearly two — a single centred bar under
+       two dots turns the whole thing into a face.
+
+       The dark outline is not decoration: it is what lets the very same mark
+       sit on the app bar with no backing plate. On a light page the outline
+       carries the shape (the tan alone is only ~1.7:1 there); on a dark page
+       the tan fill carries it and the outline recedes.
+
+       Plain geometry, so it survives 32 px and Android's maskable circle:
+       everything stays inside the middle 80% (x/y 51..461).
+
+       The same geometry is inlined in src/components/brand/logo.tsx for the
+       app bar. Change both together, then run: node scripts/generate-icons.mjs -->
   <rect width="512" height="512" fill="#091b31"/>
-  <g transform="rotate(-9 238 256)">
-    <rect x="148" y="131" width="180" height="250" rx="22" fill="#334f6d"/>
-  </g>
-  <g transform="rotate(6 274 256)">
-    <rect x="184" y="131" width="180" height="250" rx="22" fill="#fbfaf7"/>
-    <rect x="212" y="286" width="124" height="18" rx="9" fill="#9da5b1"/>
-    <rect x="212" y="320" width="76" height="18" rx="9" fill="#e49e22"/>
+
+  <g transform="rotate(-5 256 256)">
+    <!-- Card proportions (roughly 3:4), pushed out of true by potato lumps. -->
+    <path
+      d="M256 92
+         C322 92, 374 116, 376 186
+         C378 246, 384 336, 352 382
+         C326 420, 188 424, 162 390
+         C130 348, 134 244, 136 184
+         C138 116, 190 92, 256 92 Z"
+      fill="#dab787" stroke="#63462d" stroke-width="14" stroke-linejoin="round"/>
+
+    <!-- Sprouting eyes, on a diagonal and different sizes. -->
+    <ellipse cx="188" cy="158" rx="14" ry="11" fill="#63462d" transform="rotate(-20 188 158)"/>
+    <ellipse cx="334" cy="238" rx="11" ry="14" fill="#63462d" transform="rotate(14 334 238)"/>
+
+    <!-- Two left-aligned lines of unequal length: that is what makes a surface
+         read as written-on rather than as a mouth. -->
+    <rect x="172" y="300" width="168" height="26" rx="13" fill="#e49e22"/>
+    <rect x="172" y="346" width="104" height="24" rx="12" fill="#a9825a"/>
   </g>
 </svg>

@@ -1,8 +1,14 @@
-# Niemiecki — fiszki i plan nauki
+# Kartoffel — niemiecki na fiszkach
 
 PWA do nauki niemieckiego: talia fiszek z powtórkami SM-2 i tracker
 4-tygodniowego planu. Treść pochodzi z `star learn german.md`, postępy
 z Firestore.
+
+Nazwa czyta się dwujęzycznie: „karto-" jak karta/fiszka, „Kartoffel" jak
+ziemniak. Logo — ziemniak, który jest fiszką — mieszka w
+`public/icons/icon.svg` (źródło ikon PWA, rasteryzowane przez
+`scripts/generate-icons.mjs`) i w `src/components/brand/logo.tsx` (pasek
+aplikacji). Te dwa pliki trzeba zmieniać razem.
 
 Instrukcje pracy nad projektem: **`AGENT.md`**. Plan i model danych: **`PLAN.md`**.
 
