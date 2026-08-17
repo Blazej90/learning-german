@@ -38,10 +38,15 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // The tinted browser bar has to follow the theme, or it fights the page.
+  // These are the sRGB values of `--background` in `globals.css`; an eyeballed
+  // hex would show a seam against the status bar.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#fdfcf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1217" },
   ],
+  // Lets the page reach under the Dynamic Island and the home indicator, which
+  // is what makes `env(safe-area-inset-*)` report anything but zero.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

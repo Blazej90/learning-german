@@ -10,7 +10,7 @@ import { UserMenu } from "@/features/auth/user-menu";
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <header className="flex justify-end px-6 py-4">
+      <header className="pt-safe px-safe flex justify-end px-6 py-4">
         <UserMenu />
       </header>
       <AuthGate>{children}</AuthGate>

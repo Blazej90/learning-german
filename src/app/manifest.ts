@@ -18,8 +18,12 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#ffffff",
-    theme_color: "#ffffff",
+    // sRGB of `--background` in its light theme. The manifest takes a single
+    // value — there is no per-scheme form the phone reads — so the splash is
+    // the light one, and the dark bar is handled by `themeColor` in the root
+    // layout, which does accept a media query.
+    background_color: "#fdfcf9",
+    theme_color: "#fdfcf9",
     // The artwork keeps its margins inside the middle 80%, so one file serves
     // both purposes — listed twice because Next's type takes a single purpose
     // per entry, not the space-separated form the spec allows.
