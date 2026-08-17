@@ -195,6 +195,12 @@
   padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
 }
 
+/* Sticky offset for anything that parks directly under the app bar: its 3rem
+   of height plus whatever the Dynamic Island takes above it. */
+@utility top-appbar {
+  top: calc(3rem + env(safe-area-inset-top, 0px));
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
