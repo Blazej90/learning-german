@@ -9,6 +9,7 @@ import { DAYS_PER_WEEK, getStudyDays, STUDY_WEEKS } from "@/data/study-plan";
 import { TOTAL_PLAN_DAYS } from "@/features/plan/progress";
 import { usePlanTracker } from "@/features/plan/use-plan-tracker";
 import { WeekCard } from "@/features/plan/week-card";
+import { cn } from "@/lib/utils";
 
 const START_FORMAT = new Intl.DateTimeFormat("pl-PL", {
   day: "numeric",
@@ -95,7 +96,15 @@ export function PlanTracker() {
 
           <div className="text-right">
             <p className="flex items-center justify-end gap-1.5 text-2xl font-semibold tabular-nums">
-              <Flame aria-hidden className="size-5 text-muted-foreground" />
+              {/* A grey flame beside a live streak contradicts itself — the
+                  amber is the point of the token. */}
+              <Flame
+                aria-hidden
+                className={cn(
+                  "size-5",
+                  streak > 0 ? "text-brand" : "text-muted-foreground",
+                )}
+              />
               {streak}
             </p>
             <p className="text-sm text-muted-foreground">
