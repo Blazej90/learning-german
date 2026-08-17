@@ -4,6 +4,13 @@ import { useMemo, useState } from "react";
 import { Search, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { CATEGORIES } from "@/data/categories";
 import { PHRASES } from "@/data/phrases";
@@ -105,9 +112,18 @@ export function PhraseBrowser() {
       ) : null}
 
       {groups.length === 0 ? (
-        <p className="py-8 text-center text-muted-foreground">
-          Nic nie pasuje do „{query.trim()}”.
-        </p>
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Search />
+            </EmptyMedia>
+            <EmptyTitle>Nic nie pasuje do „{query.trim()}”</EmptyTitle>
+            <EmptyDescription>
+              Spróbuj krótszego fragmentu — szukanie działa po obu językach i
+              nie wymaga znaków diakrytycznych.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       ) : (
         groups.map(({ category, phrases }) => (
           <section key={category.id} className="flex flex-col">

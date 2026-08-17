@@ -5,6 +5,7 @@ import { Flame } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DAYS_PER_WEEK, getStudyDays, STUDY_WEEKS } from "@/data/study-plan";
 import { TOTAL_PLAN_DAYS } from "@/features/plan/progress";
 import { usePlanTracker } from "@/features/plan/use-plan-tracker";
@@ -33,9 +34,29 @@ export function PlanTracker() {
 
   if (tracker.status === "loading") {
     return (
-      <p className="text-muted-foreground" role="status">
-        Wczytuję plan…
-      </p>
+      <div className="flex flex-col gap-8" role="status" aria-busy="true">
+        <span className="sr-only">Wczytuję plan…</span>
+
+        <section className="flex flex-col gap-3">
+          <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-7 w-40" />
+              <Skeleton className="h-4 w-56" />
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <Skeleton className="h-7 w-14" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+          </div>
+          <Skeleton className="h-1 w-full" />
+        </section>
+
+        <div className="flex flex-col gap-4">
+          {STUDY_WEEKS.map((week) => (
+            <Skeleton key={week.week} className="h-28 w-full rounded-xl" />
+          ))}
+        </div>
+      </div>
     );
   }
 
@@ -102,7 +123,7 @@ export function PlanTracker() {
                 aria-hidden
                 className={cn(
                   "size-5",
-                  streak > 0 ? "text-brand" : "text-muted-foreground",
+                  streak > 0 ? "text-brand-ink" : "text-muted-foreground",
                 )}
               />
               {streak}

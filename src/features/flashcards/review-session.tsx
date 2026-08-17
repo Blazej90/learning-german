@@ -7,6 +7,7 @@ import { FlipCard } from "@/components/aceternity/flip-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   RATING_OPTIONS,
   RatingButtons,
@@ -55,10 +56,22 @@ export function ReviewSession() {
   }, [grade, isRevealed, reveal, status]);
 
   if (status === "loading") {
+    // Mirrors the session layout below, so the card does not jump into place.
     return (
-      <p className="text-muted-foreground" role="status">
-        Wczytuję fiszki…
-      </p>
+      <div className="flex flex-1 flex-col gap-4" role="status" aria-busy="true">
+        <span className="sr-only">Wczytuję fiszki…</span>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-5 w-20 rounded-full" />
+          </div>
+          <Skeleton className="h-1 w-full" />
+        </div>
+
+        <Skeleton className="my-auto h-[clamp(16rem,42dvh,26rem)] w-full rounded-2xl" />
+        <Skeleton className="h-11 w-full" />
+      </div>
     );
   }
 

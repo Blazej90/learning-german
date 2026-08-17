@@ -99,7 +99,7 @@ export function WeekCard({
             <ChevronRight
               aria-hidden
               className={cn(
-                "size-4 shrink-0 text-muted-foreground transition-transform",
+                "size-4 shrink-0 text-muted-foreground transition-transform motion-reduce:transition-none",
                 isOpen && "rotate-90",
               )}
             />

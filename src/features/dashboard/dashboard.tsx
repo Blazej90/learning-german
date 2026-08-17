@@ -6,6 +6,7 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TOTAL_PLAN_DAYS } from "@/features/plan/progress";
 import { usePlanTracker } from "@/features/plan/use-plan-tracker";
 import { ProgressRing } from "@/features/dashboard/progress-ring";
@@ -27,11 +28,7 @@ export function Dashboard() {
   const plan = usePlanTracker();
 
   if (cards.status === "loading" || plan.status === "loading") {
-    return (
-      <p className="text-muted-foreground" role="status">
-        Wczytuję postępy…
-      </p>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (cards.status === "error" || plan.status === "error") {
@@ -159,6 +156,41 @@ export function Dashboard() {
   );
 }
 
+/**
+ * The dashboard's own shape, greyed out.
+ *
+ * A skeleton rather than "Wczytuję postępy…" because this screen is the app's
+ * front door: a line of text collapses the layout to nothing and then throws
+ * the real thing at you, which reads as a page load rather than a wait.
+ */
+function DashboardSkeleton() {
+  return (
+    <div className="flex flex-col gap-8" role="status" aria-busy="true">
+      <span className="sr-only">Wczytuję postępy…</span>
+
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-5">
+          <Skeleton className="size-28 shrink-0 rounded-full" />
+          <div className="flex flex-1 flex-col gap-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+        </div>
+        <Skeleton className="h-11 w-full" />
+      </section>
+
+      <section className="grid grid-cols-3 gap-2 sm:gap-4">
+        {[0, 1, 2].map((tile) => (
+          <Skeleton key={tile} className="h-22 rounded-xl" />
+        ))}
+      </section>
+
+      <Skeleton className="h-40 w-full rounded-xl" />
+    </div>
+  );
+}
+
 function StatTile({
   icon: Icon,
   label,
@@ -180,7 +212,7 @@ function StatTile({
           aria-hidden
           className={cn(
             "size-3.5 shrink-0",
-            isHighlighted ? "text-brand" : "text-muted-foreground",
+            isHighlighted ? "text-brand-ink" : "text-muted-foreground",
           )}
         />
         <span className="truncate">{label}</span>

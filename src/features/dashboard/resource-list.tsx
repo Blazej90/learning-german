@@ -18,7 +18,7 @@ export function ResourceList() {
       <summary className="-mx-4 flex cursor-pointer list-none items-center gap-2 px-4 py-3 font-medium [&::-webkit-details-marker]:hidden">
         <ChevronRight
           aria-hidden
-          className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90"
+          className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90 motion-reduce:transition-none"
         />
         Materiały
       </summary>

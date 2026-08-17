@@ -69,6 +69,7 @@
      milestones, the week you are in. */
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-ink: var(--brand-ink);
 
   /* The four SRS grades. Their own tokens rather than a reuse of
      destructive/secondary/default, because they are a scale: the ramp from
@@ -126,6 +127,11 @@
 
   --brand: light-dark(oklch(0.75 0.15 75), oklch(0.8 0.14 75));
   --brand-foreground: light-dark(oklch(0.22 0.02 260), oklch(0.18 0.03 75));
+  /* The same amber as ink rather than as fill. `--brand` is tuned to be a
+     surface with dark text on it, which leaves it at 2.2:1 against a light
+     page — fine behind a badge, invisible as a flame icon. This one is dark
+     enough to draw with. */
+  --brand-ink: light-dark(oklch(0.56 0.119 75), oklch(0.8 0.14 75));
 
   --rating-again: light-dark(oklch(0.58 0.2 25), oklch(0.66 0.19 25));
   --rating-again-foreground: light-dark(oklch(1 0 0), oklch(0.16 0.02 25));

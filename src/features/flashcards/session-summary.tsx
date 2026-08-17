@@ -1,9 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { CalendarCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { RATING_OPTIONS } from "@/features/flashcards/rating-buttons";
 import type { SessionSummary } from "@/features/flashcards/use-review-session";
 
@@ -24,29 +33,32 @@ export function SessionSummaryView({
 }: SessionSummaryViewProps) {
   if (plannedCount === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Na dziś nic nie czeka</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <p className="text-muted-foreground">
+      <Empty className="border">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <CalendarCheck />
+          </EmptyMedia>
+          <EmptyTitle>Na dziś nic nie czeka</EmptyTitle>
+          <EmptyDescription>
             Wszystkie fiszki na dzisiaj są zrobione, a dzienny limit nowych
             zwrotów wyczerpany. Wróć jutro — powtórki pojawią się same.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              render={<Link href="/phrases" />}
-              nativeButton={false}
-              variant="outline"
-            >
-              Przeglądaj zwroty
-            </Button>
-            <Button onClick={onRestart} variant="ghost">
-              Odśwież
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button
+            render={<Link href="/phrases" />}
+            nativeButton={false}
+            variant="outline"
+            size="touch"
+            className="w-full"
+          >
+            Przeglądaj zwroty
+          </Button>
+          <Button onClick={onRestart} variant="ghost" size="touch">
+            Odśwież
+          </Button>
+        </EmptyContent>
+      </Empty>
     );
   }
 
