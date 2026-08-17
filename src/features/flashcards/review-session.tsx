@@ -84,10 +84,11 @@ export function ReviewSession() {
     );
   }
 
-  const progress = session.total > 0 ? (session.answered / session.total) * 100 : 0;
+  const progress =
+    session.total > 0 ? (session.answered / session.total) * 100 : 0;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-1 flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span className="tabular-nums">
@@ -108,69 +109,93 @@ export function ReviewSession() {
         </p>
       ) : null}
 
-      <FlipCard
-        isFlipped={isRevealed}
-        onFlip={() => (isRevealed ? undefined : reveal())}
-        label={
-          isRevealed
-            ? `Tłumaczenie: ${phrase.pl}`
-            : `Zwrot: ${phrase.de}. Odsłoń tłumaczenie.`
-        }
-        front={
-          <>
-            <span lang="de" className="text-3xl font-semibold sm:text-4xl">
-              {phrase.de}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              Kliknij, żeby zobaczyć tłumaczenie
-            </span>
-          </>
-        }
-        back={
-          <>
-            <span lang="de" className="text-sm text-muted-foreground">
-              {phrase.de}
-            </span>
-            <span className="text-3xl font-semibold sm:text-4xl">
-              {phrase.pl}
-            </span>
-            {phrase.note ? (
-              <span className="text-sm text-muted-foreground">
-                {phrase.note}
+      {/* `my-auto` centres the card in whatever height is left over, while the
+          wrapper still hugs it — which is what the overlaid button needs to
+          land on the card's corner rather than the container's. */}
+      <div className="relative my-auto">
+        {/* Keying on the phrase drops the previous card's flip and drag state,
+            so the next one arrives face-up rather than rotating back. */}
+        <FlipCard
+          key={current.phraseId}
+          isFlipped={isRevealed}
+          onFlip={() => (isRevealed ? undefined : reveal())}
+          swipe={
+            isRevealed
+              ? {
+                  onSwipeLeft: () => grade("again"),
+                  onSwipeRight: () => grade("good"),
+                  leftLabel: "Nie znam",
+                  rightLabel: "Dobrze",
+                }
+              : undefined
+          }
+          label={
+            isRevealed
+              ? `Tłumaczenie: ${phrase.pl}`
+              : `Zwrot: ${phrase.de}. Odsłoń tłumaczenie.`
+          }
+          front={
+            <>
+              <span lang="de" className="text-3xl font-semibold sm:text-4xl">
+                {phrase.de}
               </span>
-            ) : null}
-          </>
-        }
-      />
+              <span className="text-sm opacity-70">
+                Dotknij, żeby zobaczyć tłumaczenie
+              </span>
+            </>
+          }
+          back={
+            <>
+              <span lang="de" className="text-sm text-muted-foreground">
+                {phrase.de}
+              </span>
+              <span className="text-3xl font-semibold sm:text-4xl">
+                {phrase.pl}
+              </span>
+              {phrase.note ? (
+                <span className="text-sm text-muted-foreground">
+                  {phrase.note}
+                </span>
+              ) : null}
+            </>
+          }
+        />
 
-      <div className="flex items-center justify-center">
+        {/* A sibling, not a child: the card is one big button, and a button
+            inside a button is invalid markup. Its own translucent chip, so it
+            stays legible over both the dark front and the light back. */}
         <Button
           variant="ghost"
-          size="sm"
+          size="icon-touch"
           onClick={() => voice.speakGerman(phrase.de)}
           disabled={!voice.isAvailable}
+          aria-label={
+            voice.isAvailable
+              ? "Przeczytaj po niemiecku"
+              : "Brak niemieckiego głosu w tej przeglądarce"
+          }
           title={
             voice.isAvailable
               ? "Przeczytaj po niemiecku"
               : "Brak niemieckiego głosu w tej przeglądarce"
           }
+          className="absolute top-3 right-3 z-10 rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background"
         >
           {voice.isAvailable ? <Volume2 /> : <VolumeX />}
-          {voice.status === "ready"
-            ? "Przeczytaj"
-            : voice.status === "loading"
-              ? "Szukam głosu…"
-              : "Brak głosu de-DE"}
         </Button>
       </div>
 
-      {isRevealed ? (
-        <RatingButtons card={current.card} onGrade={grade} />
-      ) : (
-        <Button size="touch" onClick={reveal}>
-          Pokaż tłumaczenie
-        </Button>
-      )}
+      {/* The answer controls own the bottom strip — the tab bar steps aside on
+          this route precisely so they can sit where the thumb already is. */}
+      <div className="pb-safe sticky bottom-0 -mx-4 border-t border-border bg-background/90 px-4 pt-3 backdrop-blur-lg sm:-mx-6 sm:px-6">
+        {isRevealed ? (
+          <RatingButtons card={current.card} onGrade={grade} />
+        ) : (
+          <Button size="touch" className="w-full" onClick={reveal}>
+            Pokaż tłumaczenie
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

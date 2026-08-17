@@ -59,6 +59,11 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
+  /* The question side of a flashcard. Its own surface, because the two faces
+     looking identical is what made the flip hard to notice. */
+  --color-card-front: var(--card-front);
+  --color-card-front-foreground: var(--card-front-foreground);
+
   /* Amber, kept out of `--accent`: shadcn uses that one for hover surfaces,
      and a gold hover would shout. This is the reward colour — streaks,
      milestones, the week you are in. */
@@ -102,6 +107,10 @@
   --foreground: light-dark(oklch(0.22 0.02 260), oklch(0.96 0.005 85));
   --card: light-dark(oklch(1 0.002 85), oklch(0.23 0.015 260));
   --card-foreground: var(--foreground);
+  /* Deep ink in both themes: the German side should look the same whether the
+     phone is in day or night mode, so the prompt is a constant. */
+  --card-front: light-dark(oklch(0.32 0.075 250), oklch(0.3 0.07 250));
+  --card-front-foreground: oklch(0.97 0.01 250);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
 
