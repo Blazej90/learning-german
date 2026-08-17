@@ -30,7 +30,7 @@ export function TodayTasks({ plan }: { plan: PlanTracker }) {
           render={<Link href="/plan" />}
           nativeButton={false}
           variant="outline"
-          size="sm"
+          size="touch"
         >
           Zacznij plan
         </Button>
@@ -67,32 +67,42 @@ export function TodayTasks({ plan }: { plan: PlanTracker }) {
         </Link>
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-1">
         {STUDY_TASK_IDS.map((taskId) => {
           const inputId = `today-${taskId}`;
 
           return (
-            <li key={taskId} className="flex items-start gap-3">
+            <li
+              key={taskId}
+              className="-mx-2 flex items-start gap-3 rounded-lg px-2 py-2 transition-colors active:bg-muted"
+            >
               <Checkbox
                 id={inputId}
-                className="mt-1"
+                className="mt-0.5 size-6"
                 checked={tasks[taskId]}
                 onCheckedChange={() => plan.toggleTask(day.id, taskId)}
               />
-              <div className="flex flex-col gap-0.5">
-                <Label
-                  htmlFor={inputId}
+              {/* The label carries the description too, so the tap target is
+                  the whole row rather than the few words of the title. */}
+              <Label
+                htmlFor={inputId}
+                className={cn(
+                  "flex flex-1 cursor-pointer flex-col items-start gap-0.5 font-normal",
+                  tasks[taskId] && "text-muted-foreground",
+                )}
+              >
+                <span
                   className={cn(
-                    "cursor-pointer",
+                    "font-medium transition-colors",
                     tasks[taskId] && "text-muted-foreground line-through",
                   )}
                 >
                   {STUDY_TASK_LABELS[taskId]}
-                </Label>
-                <span className="text-sm text-muted-foreground">
+                </span>
+                <span className="text-left text-sm text-muted-foreground">
                   {week.dailyTasks[taskId]}
                 </span>
-              </div>
+              </Label>
             </li>
           );
         })}

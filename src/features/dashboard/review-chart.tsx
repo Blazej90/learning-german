@@ -98,9 +98,15 @@ export function ReviewChart({ history }: { history: readonly DayBucket[] }) {
         </p>
       ) : (
         <>
+          {/* `preserveAspectRatio="none"` plus an explicit height, because
+              scaling the 640-unit drawing to a 390px phone would squash the
+              plot to about 58px — too short to read a column against. The
+              columns are rectangles, so the stretch costs nothing but a
+              barely-visible flattening of the 4-unit corners. */}
           <svg
             viewBox={`0 0 ${WIDTH} ${PLOT_HEIGHT + 1}`}
-            className="h-auto w-full"
+            preserveAspectRatio="none"
+            className="h-24 w-full sm:h-28"
             role="img"
             aria-label={`Powtórki dzień po dniu, ostatnie ${history.length} dni. Razem ${total}.`}
           >
@@ -148,8 +154,15 @@ export function ReviewChart({ history }: { history: readonly DayBucket[] }) {
             />
           </svg>
 
+          {/* Three ticks, not two: with only the ends labelled there is no way
+              to place a column in the middle of the month. */}
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{DAY_FORMAT.format(history[0].date)}</span>
+            <span>
+              {DAY_FORMAT.format(
+                history[Math.floor((history.length - 1) / 2)].date,
+              )}
+            </span>
             <span>dziś</span>
           </div>
 
