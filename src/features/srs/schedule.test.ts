@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { createCard, nextEaseFactor, schedule } from "@/features/srs/schedule";
 import {
+  EASY_FIRST_INTERVAL,
   INITIAL_EASE_FACTOR,
   MINIMUM_EASE_FACTOR,
+  MINIMUM_REVIEW_INTERVAL,
   type CardState,
   type RatingId,
 } from "@/features/srs/types";
@@ -70,28 +72,41 @@ describe("schedule — interval promotion", () => {
     expect(card.dueDate).toEqual(new Date(2026, 7, 13));
   });
 
-  it("sends the second successful review six days out", () => {
-    const card = reviewSequence(fresh(), ["good", "good"]);
+  it("lets a brand-new card graded easy skip ahead", () => {
+    const card = schedule(fresh(), "easy", NOW);
 
-    expect(card.repetitions).toBe(2);
-    expect(card.interval).toBe(6);
+    expect(card.repetitions).toBe(1);
+    expect(card.interval).toBe(EASY_FIRST_INTERVAL);
   });
 
-  it("multiplies by the ease factor from the third review on", () => {
-    const card = reviewSequence(fresh(), ["good", "good", "good"]);
+  it("multiplies by the ease factor from the second review on", () => {
+    const card = reviewSequence(fresh(), ["good", "good"]);
 
-    // "good" leaves the ease factor at 2.5, so 6 * 2.5 = 15.
-    expect(card.repetitions).toBe(3);
-    expect(card.interval).toBe(15);
+    // "good" leaves the ease factor at 2.5, so 1 * 2.5 rounds to 3.
+    expect(card.repetitions).toBe(2);
+    expect(card.interval).toBe(3);
     expect(card.easeFactor).toBeCloseTo(2.5, 10);
   });
 
-  it("rounds the multiplied interval to whole days", () => {
+  it("keeps multiplying as the card matures", () => {
+    const card = reviewSequence(fresh(), ["good", "good", "good"]);
+
+    // 3 * 2.5 = 7.5, rounded to 8.
+    expect(card.interval).toBe(8);
+  });
+
+  it("steps hard by its own multiplier rather than the ease factor", () => {
     const card = reviewSequence(fresh(), ["good", "good", "hard"]);
 
-    // "hard" drops the ease factor to 2.36 first, then 6 * 2.36 = 14.16.
-    expect(card.easeFactor).toBeCloseTo(2.36, 10);
-    expect(card.interval).toBe(14);
+    // 3 * 1.2 = 3.6 -> 4, well short of the 8 that "good" would have given.
+    expect(card.interval).toBe(4);
+  });
+
+  it("never lets a remembered card come back as soon as a forgotten one", () => {
+    const card = reviewSequence(fresh(), ["good", "hard"]);
+
+    // 1 * 1.2 rounds to 1, which would collide with "again" — the floor lifts it.
+    expect(card.interval).toBeGreaterThanOrEqual(MINIMUM_REVIEW_INTERVAL);
   });
 
   it("grows faster for a card graded easy than one graded good", () => {
@@ -99,6 +114,63 @@ describe("schedule — interval promotion", () => {
     const good = reviewSequence(fresh(), ["good", "good", "good"]);
 
     expect(easy.interval).toBeGreaterThan(good.interval);
+  });
+});
+
+/**
+ * The regression this whole variant exists for: textbook SM-2 offered the same
+ * date under three different buttons for the first weeks of a card's life, so
+ * grading honestly changed nothing the user could see.
+ */
+describe("schedule — the four grades stay distinguishable", () => {
+  const PASSING: RatingId[] = ["hard", "good", "easy"];
+
+  /** Walk a card forward with `good`, checking every review it passes through. */
+  function everyStep(steps: number): CardState[] {
+    const states: CardState[] = [];
+    let card = fresh();
+
+    for (let index = 0; index < steps; index += 1) {
+      states.push(card);
+      card = schedule(card, "good", new Date(2026, 7, 12 + index, 9, 0));
+    }
+
+    return states;
+  }
+
+  it("orders the passing grades hard <= good < easy at every step", () => {
+    for (const card of everyStep(8)) {
+      const [hard, good, easy] = PASSING.map(
+        (rating) => schedule(card, rating, NOW).interval,
+      );
+
+      expect(hard).toBeLessThanOrEqual(good);
+      expect(good).toBeLessThan(easy);
+    }
+  });
+
+  it("stops offering three identical intervals from the second review on", () => {
+    // The first review is exempt: a new card graded hard or good is simply due
+    // tomorrow, and inventing a difference there would be noise.
+    for (const card of everyStep(8).slice(1)) {
+      const intervals = PASSING.map(
+        (rating) => schedule(card, rating, NOW).interval,
+      );
+
+      expect(new Set(intervals).size).toBeGreaterThan(1);
+    }
+  });
+
+  it("keeps every passing grade ahead of a failure", () => {
+    for (const card of everyStep(8)) {
+      const failed = schedule(card, "again", NOW).interval;
+
+      for (const rating of PASSING) {
+        expect(schedule(card, rating, NOW).interval).toBeGreaterThanOrEqual(
+          failed,
+        );
+      }
+    }
   });
 });
 

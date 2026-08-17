@@ -24,9 +24,34 @@ export const INITIAL_EASE_FACTOR = 2.5;
 /** SM-2 never lets the ease factor drop below this, or intervals collapse. */
 export const MINIMUM_EASE_FACTOR = 1.3;
 
-/** Interval in days after the first and second successful review. */
+/** Where a card lands after a failure, and after its first success. */
 export const FIRST_INTERVAL = 1;
-export const SECOND_INTERVAL = 6;
+
+/**
+ * A card graded "easy" on its very first review skips straight to here. Without
+ * it the four buttons all schedule a brand-new card for tomorrow, which makes
+ * grading it feel pointless on the one review where the user is most attentive.
+ */
+export const EASY_FIRST_INTERVAL = 4;
+
+/**
+ * "Hard" steps by this instead of by the ease factor.
+ *
+ * Textbook SM-2 lets the grade move only the ease factor, whose steps are tiny
+ * (-0.14 for hard, +0.10 for easy) and compound slowly — three grades that land
+ * within a day of each other for the first month of a card's life. Multiplying
+ * the interval directly is what makes the buttons mean something.
+ */
+export const HARD_MULTIPLIER = 1.2;
+
+/** "Easy" takes the "good" step and stretches it by this much. */
+export const EASY_BONUS = 1.3;
+
+/**
+ * The soonest a remembered card may return. Tomorrow is what "nie znam" means,
+ * so a successful review has to clear it or the two answers say the same thing.
+ */
+export const MINIMUM_REVIEW_INTERVAL = 2;
 
 /** Matches "5-10 nowych zwrotów" from the study plan. */
 export const DEFAULT_NEW_CARDS_PER_DAY = 8;
