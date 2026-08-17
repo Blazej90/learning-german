@@ -64,19 +64,61 @@ export function cancelSpeech(): void {
 export type VoiceSnapshot = {
   supported: boolean;
   voices: readonly SpeechSynthesisVoice[];
+  /**
+   * True once the browser has stopped handing over new voices — either because
+   * it produced some or because it had long enough to and did not. An empty
+   * list means "still loading" before this flips and "this device has none"
+   * after, and the UI has to tell those two apart.
+   */
+  settled: boolean;
 };
 
-const NO_VOICES: VoiceSnapshot = { supported: false, voices: [] };
+const NO_VOICES: VoiceSnapshot = {
+  supported: false,
+  voices: [],
+  settled: false,
+};
 
 let snapshot: VoiceSnapshot = NO_VOICES;
 let signature: string | null = null;
+let settled = false;
+
+/** How long to keep re-reading the voice list before giving up, in ms. */
+const VOICE_POLL_INTERVAL = 250;
+const VOICE_POLL_TIMEOUT = 5000;
 
 export function subscribeToVoices(onChange: () => void): () => void {
   if (!isSpeechSupported()) return () => {};
 
   window.speechSynthesis.addEventListener("voiceschanged", onChange);
-  return () =>
+
+  /*
+   * `voiceschanged` fires once, and browsers are free to fire it before React
+   * has subscribed — on a page that paints quickly, the list can already be
+   * populated by then. Waiting for an event that has been and gone leaves the
+   * app convinced the device owns no voices, so the speakers never appear and
+   * nothing explains why.
+   *
+   * Re-reading for the first few seconds closes that race. The snapshot is
+   * cached behind its signature, so a poll that finds nothing new returns the
+   * identical object and React re-renders nothing.
+   */
+  const startedAt = Date.now();
+  const poll = window.setInterval(() => {
+    const hasVoices = window.speechSynthesis.getVoices().length > 0;
+
+    if (hasVoices || Date.now() - startedAt >= VOICE_POLL_TIMEOUT) {
+      settled = true;
+      window.clearInterval(poll);
+    }
+
+    onChange();
+  }, VOICE_POLL_INTERVAL);
+
+  return () => {
+    window.clearInterval(poll);
     window.speechSynthesis.removeEventListener("voiceschanged", onChange);
+  };
 }
 
 export function getVoiceSnapshot(): VoiceSnapshot {
@@ -89,11 +131,14 @@ export function getVoiceSnapshot(): VoiceSnapshot {
   }
 
   const voices = window.speechSynthesis.getVoices();
-  const nextSignature = voices.map((voice) => voice.voiceURI).join("|");
+  // `settled` joins the signature, or the last poll — which changes nothing but
+  // the flag — would hand back the stale object and the UI would stay stuck on
+  // "loading" forever.
+  const nextSignature = `${settled}:${voices.map((voice) => voice.voiceURI).join("|")}`;
 
   if (nextSignature !== signature) {
     signature = nextSignature;
-    snapshot = { supported: true, voices };
+    snapshot = { supported: true, voices, settled };
   }
 
   return snapshot;

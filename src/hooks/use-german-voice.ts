@@ -36,7 +36,7 @@ export type GermanVoice = {
  * worse than a silent button.
  */
 export function useGermanVoice(): GermanVoice {
-  const { supported, voices } = useSyncExternalStore(
+  const { supported, voices, settled } = useSyncExternalStore(
     subscribeToVoices,
     getVoiceSnapshot,
     getServerVoiceSnapshot,
@@ -46,11 +46,11 @@ export function useGermanVoice(): GermanVoice {
 
   const status: VoiceStatus = !supported
     ? "unsupported"
-    : voices.length === 0
-      ? "loading"
-      : voice
-        ? "ready"
-        : "missing";
+    : voice
+      ? "ready"
+      : settled
+        ? "missing"
+        : "loading";
 
   // Leaving the screen mid-sentence should not keep the speaker talking.
   useEffect(() => cancelSpeech, []);
