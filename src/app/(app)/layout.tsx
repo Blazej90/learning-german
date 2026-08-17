@@ -1,19 +1,18 @@
 import type { ReactNode } from "react";
 
+import { AppShell } from "@/components/nav/app-shell";
 import { AuthGate } from "@/features/auth/auth-gate";
-import { UserMenu } from "@/features/auth/user-menu";
 
 /**
- * Shell for everything behind the login: a thin header with the account, and
- * the gate that sends signed-out visitors to `/login`.
+ * Shell for everything behind the login.
+ *
+ * The gate wraps the shell rather than the other way round, so a signed-out
+ * visitor never sees a tab bar flash before the redirect to `/login`.
  */
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <header className="pt-safe px-safe flex justify-end px-6 py-4">
-        <UserMenu />
-      </header>
-      <AuthGate>{children}</AuthGate>
-    </>
+    <AuthGate>
+      <AppShell>{children}</AppShell>
+    </AuthGate>
   );
 }

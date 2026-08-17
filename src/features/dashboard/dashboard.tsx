@@ -73,8 +73,7 @@ export function Dashboard() {
           <Button
             render={<Link href="/review" />}
             nativeButton={false}
-            size="lg"
-            className="h-11"
+            size="touch"
           >
             Zacznij powtórki
           </Button>

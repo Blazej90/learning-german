@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 
 import { ReviewSession } from "@/features/flashcards/review-session";
@@ -10,17 +9,7 @@ export const metadata: Metadata = {
 
 export default function ReviewPage() {
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12">
-      <header className="mb-8">
-        <Link
-          href="/"
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-        >
-          ← Start
-        </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Powtórki</h1>
-      </header>
-
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-6 sm:px-6">
       <ReviewSession />
     </main>
   );

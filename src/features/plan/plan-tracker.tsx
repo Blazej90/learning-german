@@ -57,7 +57,7 @@ export function PlanTracker() {
           zadania dziennie — gramatyka, zwroty i słuchanie. Dzień pierwszy to
           dzień, w którym go zaczniesz.
         </p>
-        <Button size="lg" className="h-11" onClick={tracker.startPlan}>
+        <Button size="touch" onClick={tracker.startPlan}>
           Zacznij plan dzisiaj
         </Button>
         {tracker.error ? (

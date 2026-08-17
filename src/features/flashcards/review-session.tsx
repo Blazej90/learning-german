@@ -167,7 +167,7 @@ export function ReviewSession() {
       {isRevealed ? (
         <RatingButtons card={current.card} onGrade={grade} />
       ) : (
-        <Button size="lg" className="h-11" onClick={reveal}>
+        <Button size="touch" onClick={reveal}>
           Pokaż tłumaczenie
         </Button>
       )}

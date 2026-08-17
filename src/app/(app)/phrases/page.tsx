@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 
 import { CATEGORIES } from "@/data/categories";
@@ -19,20 +18,11 @@ export const metadata: Metadata = {
 
 export default function PhrasesPage() {
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <header className="mb-10">
-        <Link
-          href="/"
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-        >
-          ← Start
-        </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Zwroty</h1>
-        <p className="mt-2 text-muted-foreground">
-          {PHRASES.length} zwrotów w {CATEGORIES.length} kategoriach — cały
-          materiał, z którego powstaną fiszki.
-        </p>
-      </header>
+    <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
+      <p className="mb-6 text-muted-foreground">
+        {PHRASES.length} zwrotów w {CATEGORIES.length} kategoriach — cały
+        materiał, z którego powstaną fiszki.
+      </p>
 
       <div className="flex flex-col gap-6">
         {CATEGORIES.map((category) => {

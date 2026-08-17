@@ -180,6 +180,12 @@
   padding-right: env(safe-area-inset-right, 0px);
 }
 
+/* Clearance for the fixed tab bar: its 3.5rem of height plus the home
+   indicator underneath it. */
+@utility pb-nav {
+  padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
