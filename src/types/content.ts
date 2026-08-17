@@ -8,9 +8,13 @@ export const CATEGORY_IDS = [
   "politeness",
   "introductions",
   "questions",
+  "numbers",
+  "directions",
   "restaurant",
   "shopping",
   "smalltalk",
+  "connectors",
+  "health",
 ] as const;
 
 export type CategoryId = (typeof CATEGORY_IDS)[number];
@@ -19,6 +23,11 @@ export type Category = {
   id: CategoryId;
   /** Polish label shown in the UI. */
   name: string;
+  /**
+   * One- or two-word label for the filter chips. The full `name` would make the
+   * chip row several screens wide, which defeats the point of a filter.
+   */
+  short: string;
   /** One-line hint about when these phrases are used. */
   description: string;
 };

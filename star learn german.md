@@ -2,6 +2,11 @@
 
 ## 1. Lista zwrotów do przypomnienia
 
+> **Uwaga:** poniżej jest oryginalny zestaw startowy (49 zwrotów). Talia w aplikacji
+> urosła od tego czasu do ponad 200 zwrotów i to **`src/data/phrases.ts` jest jedynym
+> źródłem prawdy** — nowe zwroty dopisuj tam, nie tutaj. Ta sekcja zostaje jako punkt
+> wyjścia; sekcje 2 i 3 (plan nauki, materiały) są nadal aktualne.
+
 ### Powitania i pożegnania
 - **Hallo / Guten Tag** — Cześć / Dzień dobry
 - **Guten Morgen** — Dzień dobry (rano)
