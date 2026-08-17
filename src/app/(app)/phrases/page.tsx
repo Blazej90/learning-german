@@ -4,7 +4,8 @@ import { PhraseBrowser } from "@/features/phrases/phrase-browser";
 
 export const metadata: Metadata = {
   title: "Zwroty",
-  description: "Wszystkie zwroty z zestawu startowego, pogrupowane w kategorie.",
+  description:
+    "Cały materiał do nauki, pogrupowany w kategorie i przeszukiwalny w obu językach.",
 };
 
 export default function PhrasesPage() {

@@ -207,6 +207,44 @@
   top: calc(3rem + env(safe-area-inset-top, 0px));
 }
 
+/* A horizontally swiped strip — the filter chips — where a scrollbar would be
+   chrome the phone never shows and the desktop does not need. The row stays
+   keyboard-reachable, so hiding the bar costs no affordance. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Softens both ends of that strip. A chip sliding out of view was being cut
+ * mid-letter by the screen edge, which reads as a rendering fault rather than
+ * as "there is more over here"; dissolving it says the same thing and says it
+ * on purpose.
+ *
+ * The 1rem stops match the row's own horizontal padding, so at rest — when the
+ * first chip starts exactly at 1rem — nothing is faded. The fade only ever
+ * touches a chip that is genuinely leaving.
+ */
+@utility fade-x-edges {
+  --fade-x: 1rem;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-x),
+    #000 calc(100% - var(--fade-x)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-x),
+    #000 calc(100% - var(--fade-x)),
+    transparent 100%
+  );
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
