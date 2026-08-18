@@ -56,8 +56,8 @@ export default function AboutPage() {
           </h1>
           <p className="text-muted-foreground">
             Fiszki z powtórkami i tracker czterotygodniowego planu nauki
-            niemieckiego. Nazwę czyta się dwujęzycznie: „karto-" jak karta,
-            „Kartoffel" jak ziemniak.
+            niemieckiego. Nazwę czyta się dwujęzycznie: „karto-” jak karta,
+            „Kartoffel” jak ziemniak.
           </p>
         </header>
 
