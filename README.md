@@ -1,7 +1,7 @@
 # Kartoffel — niemiecki na fiszkach
 
 PWA do nauki niemieckiego: talia fiszek z powtórkami SM-2 i tracker
-4-tygodniowego planu. Treść pochodzi z `star learn german.md`, postępy
+4-tygodniowego planu. Treść pochodzi z `start-learning-german.md`, postępy
 z Firestore.
 
 Nazwa czyta się dwujęzycznie: „karto-" jak karta/fiszka, „Kartoffel" jak

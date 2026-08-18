@@ -1,6 +1,6 @@
 # AGENT.md — instrukcje pracy nad projektem
 
-Aplikacja PWA do nauki niemieckiego. Fiszki SRS + tracker planu 4 tygodni, zbudowane na treści z `star learn german.md`. Pełny plan realizacji i model danych: **`PLAN.md`** — przeczytaj go przed rozpoczęciem pracy nad nową fazą.
+Aplikacja PWA do nauki niemieckiego. Fiszki SRS + tracker planu 4 tygodni, zbudowane na treści z `start-learning-german.md`. Pełny plan realizacji i model danych: **`PLAN.md`** — przeczytaj go przed rozpoczęciem pracy nad nową fazą.
 
 ## Zasady twarde
 

@@ -3,7 +3,7 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 import { RESOURCE_GROUPS } from "@/data/resources";
 
 /**
- * Materials from section 3 of `star learn german.md`.
+ * Materials from section 3 of `start-learning-german.md`.
  *
  * Collapsed by default. These links are picked once and then rarely opened, so
  * on a phone they were three screenfuls of scrolling between the dashboard and

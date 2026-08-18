@@ -1,6 +1,6 @@
 # Plan projektu — aplikacja do nauki niemieckiego
 
-Aplikacja webowa (PWA) budowana na bazie `star learn german.md`: zwroty z tego pliku stają się talią fiszek z algorytmem powtórek, a plan 4 tygodni — interaktywnym trackerem z zapisem postępów w chmurze.
+Aplikacja webowa (PWA) budowana na bazie `start-learning-german.md`: zwroty z tego pliku stają się talią fiszek z algorytmem powtórek, a plan 4 tygodni — interaktywnym trackerem z zapisem postępów w chmurze.
 
 ## 1. Decyzje techniczne
 
@@ -44,12 +44,12 @@ learn-german/
 │  │  ├─ tts.ts                   # Web Speech API
 │  │  └─ utils.ts                 # cn() od shadcn
 │  ├─ data/
-│  │  ├─ phrases.ts               # ~50 zwrotów z star learn german.md
+│  │  ├─ phrases.ts               # ~50 zwrotów z start-learning-german.md
 │  │  ├─ categories.ts            # 7 kategorii
 │  │  └─ study-plan.ts            # 4 tygodnie zadań
 │  ├─ hooks/
 │  └─ types/
-├─ star learn german.md           # źródło treści — zostaje jako referencja
+├─ start-learning-german.md           # źródło treści — zostaje jako referencja
 └─ PLAN.md
 ```
 
@@ -130,7 +130,7 @@ Rozstrzygnięcia z implementacji (Faza 6):
 - **Wykres to wbudowany SVG, nie biblioteka.** Trzydzieści liczb nie uzasadnia zależności (recharts to ~100 kB), a `viewBox` skaluje całość na telefonie za darmo. Wartości są dostępne również w tabeli pod wykresem — tooltip niczego nie zamyka.
 - **Historia powtórek to zapytanie zakresowe po jednym polu** (`reviewedAt >= …`), więc Firestore nie potrzebuje indeksu złożonego i `firestore.indexes.json` zostaje pusty.
 - **Puste dni zostają w wykresie.** Pominięcie ich ścisnęłoby oś i przerwana seria wyglądałaby na ciągłą.
-- **Adresy materiałów:** w `star learn german.md` są tylko dwa (Nicos Weg, Goethe-Institut). Pozostałe to oficjalne strony serwisów wymienionych w pliku z nazwy — warto je zweryfikować przy okazji.
+- **Adresy materiałów:** w `start-learning-german.md` są tylko dwa (Nicos Weg, Goethe-Institut). Pozostałe to oficjalne strony serwisów wymienionych w pliku z nazwy — warto je zweryfikować przy okazji.
 
 Rozstrzygnięcia z implementacji (Faza 7):
 
@@ -163,7 +163,7 @@ Trzy rozstrzygnięcia z implementacji (Faza 2), których nie było w pierwotnym 
 `pnpm create next-app` (TypeScript, Tailwind, App Router), init gita, `pnpm dlx shadcn@latest init`, aliasy w tsconfig i components.json, blokada npm/yarn przez `only-allow`, `.gitignore` z `.env.local`. Efekt: `pnpm dev` startuje.
 
 **Faza 1 — Treść**
-Przeniesienie ~50 zwrotów z `star learn german.md` do `src/data/phrases.ts` ze stabilnymi id, kategoriami i typami. Plan 4 tygodni → `study-plan.ts` (28 dni × 3 zadania). Efekt: strona `/phrases` listuje zwroty po kategoriach.
+Przeniesienie ~50 zwrotów z `start-learning-german.md` do `src/data/phrases.ts` ze stabilnymi id, kategoriami i typami. Plan 4 tygodni → `study-plan.ts` (28 dni × 3 zadania). Efekt: strona `/phrases` listuje zwroty po kategoriach.
 
 **Faza 2 — Silnik SRS**
 Implementacja SM-2 + testy Vitest (awans interwałów, reset po pomyłce, dolny limit EF, budowanie kolejki na dziś). Bez UI, bez Firebase. Efekt: `pnpm test` zielony.

@@ -1,5 +1,5 @@
 /**
- * Source: `star learn german.md`, section 3 — "Darmowe kursy i materiały".
+ * Source: `start-learning-german.md`, section 3 — "Darmowe kursy i materiały".
  *
  * The file itself spells out only two addresses (Nicos Weg, Goethe-Institut);
  * the rest are the official home pages of the services it names by title.

@@ -1,7 +1,7 @@
 import type { CategoryId, Phrase } from "@/types/content";
 
 /**
- * The deck is the single source of truth for phrases. `star learn german.md`
+ * The deck is the single source of truth for phrases. `start-learning-german.md`
  * holds the original starter set plus the study plan and links, but the deck
  * has since grown past it — do not treat that file as the list to sync with.
  *

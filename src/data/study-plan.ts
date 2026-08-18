@@ -7,7 +7,7 @@ export const STUDY_TASK_LABELS: Record<StudyTaskId, string> = {
   listening: "Słuchanie",
 };
 
-/** Source: `star learn german.md`, section 2 — "Plan nauki: 4 tygodnie na start". */
+/** Source: `start-learning-german.md`, section 2 — "Plan nauki: 4 tygodnie na start". */
 export const STUDY_WEEKS: readonly StudyWeek[] = [
   {
     week: 1,
