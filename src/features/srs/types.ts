@@ -24,8 +24,24 @@ export const INITIAL_EASE_FACTOR = 2.5;
 /** SM-2 never lets the ease factor drop below this, or intervals collapse. */
 export const MINIMUM_EASE_FACTOR = 1.3;
 
-/** Where a card lands after a failure, and after its first success. */
+/** Where a card lands after a failure, and after a first review graded "hard". */
 export const FIRST_INTERVAL = 1;
+
+/**
+ * A brand-new card graded "good" lands here rather than on tomorrow.
+ *
+ * Anki's default graduating interval is one day, on the theory that a single
+ * exposure is weak evidence: "good" pressed a second after the answer appeared
+ * often means "I recognised it", which is not recall. That theory assumes a
+ * deck of unfamiliar material. This one is a refresher — its source file is
+ * literally a "lista zwrotów do przypomnienia" — so a large share of cards are
+ * already half-known on first sight, and treating every first "good" as a first
+ * contact understates what the user just reported.
+ *
+ * Two days rather than three: still close enough to catch a card that was only
+ * recognised, far enough that "good" and "hard" stop meaning the same thing.
+ */
+export const GOOD_FIRST_INTERVAL = 2;
 
 /**
  * A card graded "easy" on its very first review skips straight to here. Without

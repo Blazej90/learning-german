@@ -4,6 +4,7 @@ import {
   EASY_FIRST_INTERVAL,
   FAILING_QUALITY,
   FIRST_INTERVAL,
+  GOOD_FIRST_INTERVAL,
   HARD_MULTIPLIER,
   INITIAL_EASE_FACTOR,
   MINIMUM_EASE_FACTOR,
@@ -59,10 +60,15 @@ function nextInterval(
 ): number {
   if (rating === "again") return FIRST_INTERVAL;
 
-  // Graduating a new card: there is no previous interval to multiply, so the
-  // first step is fixed — and longer for "easy", which is the whole point.
+  // Graduating a new card: there is no previous interval to multiply, so every
+  // first step is a fixed constant. "Hard" is the only passing grade that still
+  // means tomorrow — struggling with a card on first sight is exactly what
+  // tomorrow is for.
   if (repetitions === 1) {
-    return rating === "easy" ? EASY_FIRST_INTERVAL : FIRST_INTERVAL;
+    if (rating === "easy") return EASY_FIRST_INTERVAL;
+    if (rating === "good") return GOOD_FIRST_INTERVAL;
+
+    return FIRST_INTERVAL;
   }
 
   const good = Math.max(

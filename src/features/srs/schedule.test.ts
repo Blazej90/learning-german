@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { createCard, nextEaseFactor, schedule } from "@/features/srs/schedule";
 import {
   EASY_FIRST_INTERVAL,
+  FIRST_INTERVAL,
+  GOOD_FIRST_INTERVAL,
   INITIAL_EASE_FACTOR,
   MINIMUM_EASE_FACTOR,
   MINIMUM_REVIEW_INTERVAL,
@@ -64,11 +66,20 @@ describe("nextEaseFactor", () => {
 });
 
 describe("schedule — interval promotion", () => {
-  it("sends the first successful review one day out", () => {
+  it("graduates a brand-new card graded good past tomorrow", () => {
     const card = schedule(fresh(), "good", NOW);
 
     expect(card.repetitions).toBe(1);
-    expect(card.interval).toBe(1);
+    expect(card.interval).toBe(GOOD_FIRST_INTERVAL);
+    expect(card.dueDate).toEqual(new Date(2026, 7, 14));
+  });
+
+  it("still sends a brand-new card graded hard to tomorrow", () => {
+    const card = schedule(fresh(), "hard", NOW);
+
+    // The three passing grades have to differ on the first review, or grading
+    // it is theatre — but "hard" on first sight is what tomorrow is for.
+    expect(card.interval).toBe(FIRST_INTERVAL);
     expect(card.dueDate).toEqual(new Date(2026, 7, 13));
   });
 
@@ -82,30 +93,31 @@ describe("schedule — interval promotion", () => {
   it("multiplies by the ease factor from the second review on", () => {
     const card = reviewSequence(fresh(), ["good", "good"]);
 
-    // "good" leaves the ease factor at 2.5, so 1 * 2.5 rounds to 3.
+    // "good" leaves the ease factor at 2.5, so 2 * 2.5 lands on 5.
     expect(card.repetitions).toBe(2);
-    expect(card.interval).toBe(3);
+    expect(card.interval).toBe(5);
     expect(card.easeFactor).toBeCloseTo(2.5, 10);
   });
 
   it("keeps multiplying as the card matures", () => {
     const card = reviewSequence(fresh(), ["good", "good", "good"]);
 
-    // 3 * 2.5 = 7.5, rounded to 8.
-    expect(card.interval).toBe(8);
+    // 5 * 2.5 = 12.5, rounded to 13.
+    expect(card.interval).toBe(13);
   });
 
   it("steps hard by its own multiplier rather than the ease factor", () => {
     const card = reviewSequence(fresh(), ["good", "good", "hard"]);
 
-    // 3 * 1.2 = 3.6 -> 4, well short of the 8 that "good" would have given.
-    expect(card.interval).toBe(4);
+    // 5 * 1.2 = 6, well short of the 13 that "good" would have given.
+    expect(card.interval).toBe(6);
   });
 
   it("never lets a remembered card come back as soon as a forgotten one", () => {
     const card = reviewSequence(fresh(), ["good", "hard"]);
 
-    // 1 * 1.2 rounds to 1, which would collide with "again" — the floor lifts it.
+    // 2 * 1.2 rounds to 2; the floor is what keeps it from colliding with the
+    // single day "again" hands out.
     expect(card.interval).toBeGreaterThanOrEqual(MINIMUM_REVIEW_INTERVAL);
   });
 
@@ -149,10 +161,8 @@ describe("schedule — the four grades stay distinguishable", () => {
     }
   });
 
-  it("stops offering three identical intervals from the second review on", () => {
-    // The first review is exempt: a new card graded hard or good is simply due
-    // tomorrow, and inventing a difference there would be noise.
-    for (const card of everyStep(8).slice(1)) {
+  it("never offers three identical intervals, first review included", () => {
+    for (const card of everyStep(8)) {
       const intervals = PASSING.map(
         (rating) => schedule(card, rating, NOW).interval,
       );

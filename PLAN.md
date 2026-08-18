@@ -67,7 +67,7 @@ Współczynnik łatwości jest czystym SM-2: `EF' = EF + (0.1 − (5−q) × (0.
 **Odstępy nie są już czystym SM-2, tylko wariantem w stylu Anki.** Oryginał dawał trzem pozytywnym ocenom niemal ten sam termin przez pierwszy miesiąc życia fiszki: pierwsza powtórka 1 dzień, druga 6 dni niezależnie od oceny, trzecia rozjazd 14/15/16 dni. Cztery przyciski wskazujące ten sam dzień to cztery przyciski, które wyglądają na zepsute.
 
 - **Nie znam** → `repetitions = 0`, powrót jutro, `lapses++`
-- pierwsza powtórka po awansie: 1 dzień, a dla **Łatwe** od razu 4 dni
+- pierwsza powtórka nowej fiszki ma trzy osobne szczeble: **Trudne** 1 dzień, **Dobrze** 2 dni, **Łatwe** 4 dni
 - **Trudne** → `interval × 1,2`, z pominięciem EF, przycięte z góry do wartości „Dobrze", żeby rampa się nie odwróciła
 - **Dobrze** → `round(interval × EF)`
 - **Łatwe** → `round(interval × EF × 1,3)`, nigdy mniej niż „Dobrze" + 1
@@ -75,7 +75,9 @@ Współczynnik łatwości jest czystym SM-2: `EF' = EF + (0.1 − (5−q) × (0.
 
 Stałe siedzą w `src/features/srs/types.ts`. `schedule(card, rating, now) → card` w `src/features/srs/schedule.ts` jest czystą funkcją, w pełni testowalną. Kolejka na dziś = fiszki z `dueDate ≤ dziś` + limit nowych dziennie (domyślnie 8, zgodnie z „5–10 nowych zwrotów" z planu).
 
-Istniejące fiszki nie wymagały migracji przy zmianie odstępów — nowe wartości wyliczają się z `interval` i `easeFactor`, które każdy zapisany dokument już miał.
+**Dlaczego „Dobrze" na nowej fiszce daje 2 dni, a nie 1.** Anki domyślnie wypuszcza świeżą kartę na jutro niezależnie od oceny, zakładając, że jedno spojrzenie to słaby dowód: „Dobrze" wciśnięte sekundę po odsłonięciu odpowiedzi zwykle znaczy „rozpoznałem", a nie „przypomniałem sobie". To założenie pasuje do talii nowego materiału. Ta talia jest powtórkową — plik źródłowy nazywa ją „listą zwrotów do przypomnienia" — więc spora część kart jest już częściowo znana przy pierwszym pokazaniu. Dwa dni, a nie trzy: wciąż wystarczająco blisko, żeby złapać zwrot tylko rozpoznany, i wystarczająco daleko, żeby „Dobrze" i „Trudne" przestały znaczyć to samo.
+
+Istniejące fiszki nie wymagały migracji przy zmianach odstępów — nowe wartości wyliczają się z `interval` i `easeFactor`, które każdy zapisany dokument już miał.
 
 ### Rozstrzygnięcia
 
