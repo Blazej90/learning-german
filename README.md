@@ -10,7 +10,8 @@ ziemniak. Logo — ziemniak, który jest fiszką — mieszka w
 `scripts/generate-icons.mjs`) i w `src/components/brand/logo.tsx` (pasek
 aplikacji). Te dwa pliki trzeba zmieniać razem.
 
-Instrukcje pracy nad projektem: **`AGENT.md`**. Plan i model danych: **`PLAN.md`**.
+Instrukcje pracy nad projektem: **`AGENT.md`**. Model danych i rozstrzygnięcia
+projektowe: **`PLAN.md`**.
 
 ## Uruchomienie lokalne
 

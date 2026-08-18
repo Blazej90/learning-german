@@ -12,4 +12,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Instrukcje projektowe
 
-Blok powyżej generuje `next dev` i nie należy go edytować. Właściwe zasady pracy nad tym projektem są w **`AGENT.md`** (liczba pojedyncza), a plan realizacji w **`PLAN.md`**.
+Blok powyżej generuje `next dev` i nie należy go edytować. Właściwe zasady pracy nad tym projektem są w **`AGENT.md`** (liczba pojedyncza), a model danych i rozstrzygnięcia projektowe w **`PLAN.md`**.
