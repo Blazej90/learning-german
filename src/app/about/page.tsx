@@ -11,7 +11,7 @@ import { TOTAL_PLAN_DAYS } from "@/features/plan/progress";
 
 export const metadata: Metadata = {
   title: "O aplikacji",
-  description: `Kartoffel to fiszki z powtórkami i tracker planu nauki niemieckiego. Aplikację napisał ${AUTHOR.name}.`,
+  description: `Kartoffel to fiszki z powtórkami i tracker planu nauki niemieckiego. Autor: ${AUTHOR.name}.`,
 };
 
 /**

@@ -32,7 +32,7 @@ export function AuthorCredit({ className }: { className?: string }) {
       )}
     >
       <span className="py-2">
-        Autorem jest{" "}
+        Autor:{" "}
         <span className="font-medium text-foreground">{AUTHOR.name}</span>
       </span>
 
