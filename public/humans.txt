@@ -1,0 +1,15 @@
+/* AUTOR */
+
+    Imię i nazwisko: Błażej Bartoszewski
+    Rola: projekt, kod, treść zwrotów
+    Portfolio: https://blazej-portfolio-sand.vercel.app/
+    GitHub: https://github.com/Blazej90
+    LinkedIn: https://www.linkedin.com/in/błażej-bartoszewski-36b7162b7
+
+/* APLIKACJA */
+
+    Nazwa: Kartoffel — niemiecki na fiszkach
+    Język: polski (materiał do nauki: niemiecki)
+    Stack: Next.js, TypeScript, Tailwind, shadcn/ui, Firebase, Vitest
+    Hosting: Vercel
+    Standardy: HTML5, PWA, WCAG 2.2 AA

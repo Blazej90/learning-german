@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { AUTHOR, authorHomepage } from "@/data/about";
 import { AuthProvider } from "@/features/auth/auth-provider";
 import { RegisterServiceWorker } from "@/features/pwa/register-service-worker";
 
@@ -21,6 +22,14 @@ export const metadata: Metadata = {
     template: "%s · Kartoffel",
   },
   description: "Fiszki z powtórkami i tracker 4-tygodniowego planu nauki niemieckiego.",
+  applicationName: "Kartoffel",
+  // The authorship a machine can read: Next turns this into `<meta
+  // name="author">` plus a `<link rel="author">`, which is what a crawler or a
+  // link preview picks up — the visible credit on the login screen is for
+  // people, this is for everything else.
+  authors: [{ name: AUTHOR.name, url: authorHomepage() }],
+  creator: AUTHOR.name,
+  publisher: AUTHOR.name,
   // iOS ignores the manifest's display mode; this is what makes an installed
   // app open without Safari's chrome. The title here is what ends up under the
   // icon on the home screen, so it stays short.

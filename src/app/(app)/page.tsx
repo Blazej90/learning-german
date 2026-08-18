@@ -1,3 +1,4 @@
+import { AuthorCredit } from "@/features/about/author-credit";
 import { Dashboard } from "@/features/dashboard/dashboard";
 import { ResourceList } from "@/features/dashboard/resource-list";
 
@@ -7,6 +8,12 @@ export default function HomePage() {
       <Dashboard />
 
       <ResourceList />
+
+      {/* `mt-auto` so it sits at the bottom of the screen rather than halfway
+          up it while the dashboard is still loading its skeleton. */}
+      <footer className="mt-auto">
+        <AuthorCredit />
+      </footer>
     </main>
   );
 }

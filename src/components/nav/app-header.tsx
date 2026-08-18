@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { X } from "lucide-react";
+import { Info, X } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,21 @@ export function AppHeader({ immersive }: { immersive: boolean }) {
             <X />
           </Button>
         ) : (
-          <UserMenu />
+          <>
+            {/* "O aplikacji" is not a fifth tab — it is read once and then
+                never again, which is exactly what an icon in the bar is for. */}
+            <Button
+              render={<Link href="/about" />}
+              nativeButton={false}
+              variant="ghost"
+              size="icon-touch"
+              aria-label="O aplikacji i jej autorze"
+              title="O aplikacji"
+            >
+              <Info />
+            </Button>
+            <UserMenu />
+          </>
         )}
       </div>
     </header>

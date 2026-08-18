@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Logo } from "@/components/brand/logo";
+import { AuthorCredit } from "@/features/about/author-credit";
 import { SignInPanel } from "@/features/auth/sign-in-panel";
 
 export const metadata: Metadata = {
@@ -26,6 +27,14 @@ export default function LoginPage() {
       <div className="mt-8">
         <SignInPanel />
       </div>
+
+      {/* The only screen in the app with room for a real footer — everywhere
+          else the bottom band belongs to the tab bar. It is also the only
+          screen someone without an account ever reaches, which makes it the
+          one place the authorship has to be. */}
+      <footer className="mt-10 border-t border-border pt-5">
+        <AuthorCredit />
+      </footer>
     </main>
   );
 }

@@ -2,6 +2,9 @@
   "name": "learning-german",
   "version": "0.1.0",
   "private": true,
+  "description": "PWA do nauki niemieckiego: fiszki z powtórkami SM-2 i tracker 4-tygodniowego planu.",
+  "author": "Błażej Bartoszewski (https://blazej-portfolio-sand.vercel.app/)",
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
@@ -34,6 +37,5 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"
-  },
-  "packageManager": "pnpm@11.18.0"
+  }
 }
