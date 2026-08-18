@@ -11,7 +11,7 @@ import { TOTAL_PLAN_DAYS } from "@/features/plan/progress";
 
 export const metadata: Metadata = {
   title: "O aplikacji",
-  description: `Kartoffel — fiszki z powtórkami i tracker planu nauki niemieckiego. Aplikację napisał ${AUTHOR.name}.`,
+  description: `Kartoffel to fiszki z powtórkami i tracker planu nauki niemieckiego. Aplikację napisał ${AUTHOR.name}.`,
 };
 
 /**
@@ -64,12 +64,12 @@ export default function AboutPage() {
         <section className="flex flex-col gap-4">
           <h2 className="text-lg font-semibold tracking-tight">Co to jest</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Aplikacja pilnuje, kiedy wrócić do którego zwrotu. Ten, który
-            znasz, wraca coraz rzadziej. Ten, na którym się pomylisz — już
-            jutro. Terminy wylicza algorytm SM-2.
+            Aplikacja pilnuje, kiedy wrócić do którego zwrotu. Ten, który znasz,
+            wraca coraz rzadziej. Ten, który sprawia więcej problemów, wraca
+            następnego dnia. Terminy wylicza algorytm SM-2.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Obok fiszek chodzi plan na cztery tygodnie: codzienna lista zadań i
+            Obok fiszek jest plan na cztery tygodnie: codzienna lista zadań i
             licznik dni z rzędu. Wszystko działa offline, a aplikację można
             zainstalować na ekranie głównym telefonu.
           </p>
@@ -92,9 +92,9 @@ export default function AboutPage() {
           </div>
 
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Uczę się niemieckiego i potrzebowałem czegoś, co pomoże mi trzymać
-            się planu — stąd ta aplikacja. Powstała pod materiał, który
-            faktycznie przerabiam, i rośnie razem z nim.
+            Aplikację stworzyłem ponieważ uczę się języka niemieckiego i
+            potrzebowałem czegoś, co pomoże mi trzymać się planu. Powstała pod
+            materiał, który faktycznie przerabiam, i rośnie razem z nim.
           </p>
 
           {links.length > 0 ? (
