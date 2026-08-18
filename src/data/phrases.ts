@@ -16,6 +16,11 @@ import type { CategoryId, Phrase } from "@/types/content";
  *
  * The `id` of every phrase is the primary key of its SRS state in Firestore.
  * Adding phrases is safe; renaming an existing id orphans the user's progress.
+ *
+ * So append the ids of anything you add here to `RELEASED_PHRASE_IDS` in
+ * `phrases.test.ts`. That ledger is the only thing guarding the rule, and a new
+ * phrase stays unguarded until it lands there — the test cannot notice a rename
+ * of an id it was never told about.
  */
 export const PHRASES: readonly Phrase[] = [
   // --- Powitania i pożegnania -------------------------------------------

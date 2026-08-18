@@ -10,7 +10,7 @@ Naruszenie którejkolwiek to błąd, nie kwestia gustu.
 2. **Zawsze aliasy w importach.** `@/features/srs/schedule`, nigdy `../../features/srs/schedule`. Dotyczy też testów.
 3. **Commit i push wyłącznie po wyraźnej zgodzie Błażeja.** Za każdym razem osobno — zgoda na jeden commit nie przenosi się na następny. Przygotuj zmiany, pokaż co wejdzie, zapytaj.
 4. **Sekrety nie trafiają do repo.** Konfiguracja Firebase idzie do `.env.local` (w `.gitignore`) i do panelu Vercela. Klucze `NEXT_PUBLIC_FIREBASE_*` są z natury publiczne — ochroną są reguły Firestore, nie ukrywanie kluczy.
-5. **`id` zwrotów są kluczem głównym stanu SRS w bazie.** Zmiana istniejącego `id` w `src/data/phrases.ts` zrywa powiązanie z postępami użytkownika. Dodawać można swobodnie, zmieniać — nie.
+5. **`id` zwrotów są kluczem głównym stanu SRS w bazie.** Zmiana istniejącego `id` w `src/data/phrases.ts` zrywa powiązanie z postępami użytkownika. Dodawać można swobodnie, zmieniać — nie. **Po każdym dodaniu zwrotów dopisz ich `id` na koniec `RELEASED_PHRASE_IDS` w `src/data/phrases.test.ts`** — ta lista jest jedyną rzeczą, która pilnuje zasady, a nowa fiszka zostaje poza ochroną, dopóki tam nie trafi. Jednolinijkowiec generujący aktualną talię w formacie do wklejenia jest w nagłówku `phrases.test.ts`.
 
 ## Stack
 
